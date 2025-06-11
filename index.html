@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samar's Birthday Party</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #00ffe5;
+      text-shadow: 0 0 10px #00ffe5, 0 0 20px #00ffe5;
+    }
+
+    p {
+      font-size: 2em;
+      font-weight: bold;
+      margin: 20px auto;
+      width: 70%;
+      color: #ccc;
+    }
+
+    .details-btn {
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background: #00ffe5;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffe5;
+      transition: 0.3s ease;
+    }
+
+    .details-btn:hover {
+      background: #0ff;
+      box-shadow: 0 0 25px #0ff;
+    }
+
+    .info {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.6s ease;
+      margin-top: 20px;
+      font-size: 1.4em;
+      color: #ffdd57;
+      line-height: 1.8;
+    }
+
+    .info.show {
+      opacity: 1;
+      max-height: 500px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    canvas.confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎂 Samar's Birthday Party 🗿</h1>
+
+  <p style="font-size: 2em; font-weight: bold;">
+    You all Family Members are Invited to My Birthday Party 🎂<br>
+  </p>
+
+  <button class="details-btn" onclick="toggleDetails()">Details</button>
+
+  <div class="info" id="partyDetails">
+    🎉 <strong>Birthday Party of</strong>: Samar Kushwaha 🗿 <br>
+    📅 <strong>Date</strong>: June 12th, 2025 <br>
+    📍 <strong>Place</strong>: Samar ka Ghar <br>
+    ⏰ <strong>Timings</strong>: 6:00 PM to ♾️ <br>
+    👗 <strong>Dress Code</strong>: As you wish 😉
+  </div>
+
+  <footer>Built by the Legend himself 😎</footer>
+
+  <canvas class="confetti" id="confettiCanvas"></canvas>
+
+  <script>
+    function toggleDetails() {
+      const details = document.getElementById("partyDetails");
+      details.classList.toggle("show");
+      if (details.classList.contains("show")) {
+        launchConfetti();
+      }
+    }
+
+    function launchConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const confetti = [];
+      const colors = ['#00ffe5', '#ffdd57', '#ff007f', '#00ff88'];
+
+      for (let i = 0; i < 60; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * -canvas.height,
+          r: Math.random() * 6 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: Math.random() * 4 + 3, // faster fall
+          drift: Math.random() * 2 - 1
+        });
+      }
+
+      let frame = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        frame++;
+        let active = false;
+
+        confetti.forEach(p => {
+          p.y += p.speed;
+          p.x += p.drift;
+
+          if (p.y < canvas.height) active = true;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        });
+
+        if (active && frame < 200) {
+          requestAnimationFrame(animate);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      animate();
+    }
+  </script>
+</body>
+</html>
